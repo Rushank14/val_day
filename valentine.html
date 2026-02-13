@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#ffe6eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>For My Love</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100dvh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffc1e3 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffd6e7 100%);
+            z-index: 300;
+            padding: 30px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .romantic-text {
+            font-family: 'Great Vibes', cursive;
+            color: #d32f2f;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .normal-text {
+            font-family: 'Poppins', sans-serif;
+            color: #555;
+            font-size: 1rem;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .next-btn {
+            background-color: #ff4081;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+            font-weight: 600;
+        }
+
+        /* --- SCREEN 2: THE QUESTION --- */
+        #container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 90%;
+            max-width: 380px; 
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            margin-top: 0;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        #photo-container {
+            width: 100%;
+            height: 40vh; 
+            max-height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .button-box {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            min-height: 60px;
+            position: relative; /* Needed for absolute positioning if used */
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smoother transition */
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            user-select: none; 
+        }
+
+        #yes-btn {
+            background-color: #ff4081;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+            z-index: 100;
+            /* Ensure it scales from center */
+            transform-origin: center; 
+        }
+
+        #no-btn {
+            background-color: #e0e0e0;
+            color: #555;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- SCREEN 3: SUCCESS --- */
+        #success-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffc1e3 100%);
+            z-index: 200;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #success-message img {
+            max-width: 90%;
+            max-height: 55vh; 
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            background-color: white;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <div class="romantic-text">
+            Hey Girl, did I tell you that you are the most gorgeous person I have ever seen? <br>
+            You are really special to me. <br>
+            You mean the world to me baby ❤️
+        </div>
+        
+        <div class="normal-text">
+            This has been coming for a long time...<br>
+            and I want to ask you something.<br>
+            <br>
+            Ready, my love, my pooh?
+        </div>
+
+        <button class="next-btn" onclick="startApp()">Continue >></button>
+    </div>
+
+    <div id="container">
+        <h1 id="question-text">Will you be my Valentine?</h1>
+        
+        <div id="photo-container">
+            <img src="image_5.png" alt="Us" id="main-photo">
+        </div>
+
+        <div class="button-box">
+            <button id="yes-btn">Yes</button>
+            <button id="no-btn">No</button>
+        </div>
+    </div>
+
+    <div id="success-message">
+        <h1 style="font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: #d32f2f;">YAY! ❤️</h1>
+        <p style="font-size: 1.2rem; color: #555;"> You will always be my baby, Love you Pooh!</p>
+        <img src="image_7.png" alt="Happy Us">
+    </div>
+
+    <script>
+        // Intro Screen Logic
+        function startApp() {
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('container').style.display = 'flex';
+        }
+
+        // Main App Logic
+        const questionText = document.getElementById('question-text');
+        const photoContainer = document.getElementById('photo-container');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const successMessage = document.getElementById('success-message');
+        const container = document.getElementById('container');
+
+        let noClickCount = 0;
+        let yesButtonScale = 1;
+
+        // Image rotation
+        const cuteImages = [
+            'image_1.png', 
+            'image_6.png', 
+            'image_0.png', 
+            'image_2.png', 
+            'image_3.png', 
+            'image_4.png', 
+            'image_8.png'
+        ];
+
+        const phrases = [
+            "What about holding hands?",
+            "Look at us all cute",
+            "Think about the cuddles!",
+            "But we look so good together!",
+            "Don't break my heart 😢",
+            "I'll buy you food...",
+            "Pleaseeeee?",
+            "Okay, I'm not letting you say no."
+        ];
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            
+            // 1. Change Photo
+            const imageIndex = (noClickCount - 1) % cuteImages.length;
+            photoContainer.innerHTML = `<img src="${cuteImages[imageIndex]}" alt="Cute moment">`;
+
+            // 2. Change Text
+            const phraseIndex = (noClickCount - 1) % phrases.length;
+            const currentPhrase = phrases[phraseIndex];
+            questionText.innerText = currentPhrase;
+
+            // 3. New Growth Logic
+            if (noClickCount < 6) {
+                // Grow VERY slowly for the first few clicks
+                yesButtonScale += 0.15; 
+            } else {
+                // Grow a bit faster after "Buy food"
+                yesButtonScale += 0.3;
+            }
+            
+            // Apply scale
+            yesBtn.style.transform = `scale(${yesButtonScale})`;
+
+            // 4. "Take Over" Logic
+            // If we are at the very last phrase ("Okay, I'm not letting you say no.")
+            if (currentPhrase === "Okay, I'm not letting you say no.") {
+                // Hide No button
+                noBtn.style.display = 'none';
+                
+                // Make Yes button HUGE
+                yesBtn.innerText = "YES!!!!";
+                yesBtn.style.transform = "scale(1.5)"; // Reset scale for cleaner animation
+                yesBtn.style.position = "absolute";
+                yesBtn.style.width = "100%";
+                yesBtn.style.height = "100%";
+                yesBtn.style.top = "0";
+                yesBtn.style.left = "0";
+                yesBtn.style.borderRadius = "25px";
+                yesBtn.style.fontSize = "3rem";
+                yesBtn.style.display = "flex";
+                yesBtn.style.justifyContent = "center";
+                yesBtn.style.alignItems = "center";
+                yesBtn.style.zIndex = "1000";
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            container.style.display = 'none';
+            successMessage.style.display = 'flex';
+            createHearts();
+        });
+
+        function createHearts() {
+            const interval = setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-10vh';
+                heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                heart.style.zIndex = '1000';
+                heart.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    clearInterval(interval);
+                    heart.remove();
+                }, 5000);
+            }, 100);
+        }
+
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes fall {
+                to { transform: translateY(110vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
